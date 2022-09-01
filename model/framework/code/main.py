@@ -38,9 +38,7 @@ for smi in smiles_list:
     num_noise_dict[smi] = []
     num_molecules_dict[smi] = []
     while(len(smi_gen_dict[smi][0]) < num_molecules_gen) and (iteration < MAX_ITER):
-        print(f"SMILES {smi}, Iteration {iteration}:")
         for i in range(len(noise_list)):
-            print(f"\tNoise value: {noise_list[i]}, Current Length: {len(smi_gen_dict[smi][0])}")
             smi_canon = mu.canon_smiles(smi)
             smi_X = vae.smiles_to_hot(smi_canon, canonize_smiles=True)
             smi_z = vae.encode(smi_X)
