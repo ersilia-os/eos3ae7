@@ -1,40 +1,54 @@
 # imports
 import os
-import csv
-import joblib
-import sys
-from rdkit import Chem
-from rdkit.Chem.Descriptors import MolWt
+#Set backend to TensorFlow
+os.environ['KERAS_BACKEND'] = 'tensorflow'
 
-# parse arguments
+import csv
+import pandas as pd
+import sys
+from rdkit import RDLogger
+from chemvae.vae_utils import VAEUtils
+from chemvae import mol_utils as mu
+import time
+import matplotlib.pyplot as plt
+
+#Load model
+vae = VAEUtils()
+
+#Turn off RDKit Warnings
+RDLogger.DisableLog('rdApp.*')
+
+#Parse arguments
 input_file = sys.argv[1]
 output_file = sys.argv[2]
 
-# current file directory
-root = os.path.dirname(os.path.abspath(__file__))
-
-# checkpoints directory
-checkpoints_dir = os.path.abspath(os.path.join(root, "..", "..", "checkpoints"))
-
-# read checkpoints (here, simply an integer number: 42)
-ckpt = joblib.load(os.path.join(checkpoints_dir, "checkpoints.joblib"))
-
-# model to be run (here, calculate the Molecular Weight and add ckpt (42) to it)
-def my_model(smiles_list, ckpt):
-    return [MolWt(Chem.MolFromSmiles(smi))+ckpt for smi in smiles_list]
-    
-# read SMILES from .csv file, assuming one column with header
+#Read SMILES from .csv file, assuming one column with header
 with open(input_file, "r") as f:
     reader = csv.reader(f)
     next(reader) # skip header
     smiles_list = [r[0] for r in reader]
-    
-# run model
-outputs = my_model(smiles_list, ckpt)
 
-# write output in a .csv file
-with open(output_file, "w") as f:
-    writer = csv.writer(f)
-    writer.writerow(["value"]) # header
-    for o in outputs:
-        writer.writerow([o])
+#Sampling approach - For every molecule, generate n molecules by doing a noise parameter sweep
+noise_list = [i for i in range(5, 20)] #Stop at 19 because average distance between molecules is 19.66
+smi_gen_dict = {smi: [[]] for smi in smiles_list}
+num_molecules_gen = 20
+MAX_ITER = 5 #To avoid infinite loop
+
+for smi in smiles_list:
+    num_noise_dict[smi] = []
+    num_molecules_dict[smi] = []
+    while(len(smi_gen_dict[smi][0]) < num_molecules_gen) and (iteration < MAX_ITER):
+        print(f"SMILES {smi}, Iteration {iteration}:")
+        for i in range(len(noise_list)):
+            print(f"\tNoise value: {noise_list[i]}, Current Length: {len(smi_gen_dict[smi][0])}")
+            smi_canon = mu.canon_smiles(smi)
+            smi_X = vae.smiles_to_hot(smi_canon, canonize_smiles=True)
+            smi_z = vae.encode(smi_X)
+            df = vae.z_to_smiles(smi_z, decode_attempts=250, noise_norm=noise_list[i])
+            smi_gen_dict[smi][0] += df.smiles.values.tolist()
+            smi_gen_dict[smi][0] = list(set(smi_gen_dict[smi][0])) #Avoid repeat molecules
+
+#Write output in a .csv file
+output_df = pd.DataFrame.from_dict(smi_gen_dict, orient='index', columns=["generated_molecules"])
+output_df = output_df.reset_index().rename(columns={"index":"smiles"})
+output_df.to_csv(output_file)
