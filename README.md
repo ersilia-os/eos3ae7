@@ -1,28 +1,32 @@
-# Model title
+# Chemical Variational Autoencoder
 ## Model identifiers
-- Slug:
-- Ersilia ID: 
-- Tags: 
+- Slug: chemical-vae
+- Ersilia ID: eos3ae7
+- Tags: generative
 
 # Model description
 Short description of the model in one or two sentences.
-- Input:
-- Output: {unit and description of output) 
-- Model type: (Regression or Classification)
-- Training set: (number of compounds and link to the training data)
-- Mode of training: (is it pretrained? that is were the checkpoints downloaded and used to train the model? or is it retrained? that is trained from scratch with an updated data)
+- Input: SMILES
+- Output: List of SMILES generated for each SMILES input
+- Model type: Generative
+- Training set: [250,000 random molecules from ZINC database](https://pubs.acs.org/doi/full/10.1021/ci3001277)
+- Mode of training: Pretrained
 
 # Source code
-Cite the source publication.
-- Code: include link to the source code
-- Checkpoints: include the link to the checkpoints used if model is a pretrained model
+Gómez-Bombarelli, R. et al. Automatic Chemical Design Using a Data-Driven Continuous Representation of Molecules. ACS Cent. Sci. 4, 268–276 (2018).
+
+- Code: https://github.com/aspuru-guzik-group/chemical_vae
+- Checkpoints: 
+    - [Encoder](model/checkpoints/zinc_encoder.h5)
+    - [Decoder](model/checkpoints/zinc_decoder.h5)
+    - [Property prediction](model/checkpoints/zinc_prop_pred.h5)
 
 # License
-State the licences used which are GPL v3 license used by Ersilia and the license used by the source code, if any exists. Use [this guide]() on how to license new models to be incorporated into Ersilia's model hub 
-
+The GPL-v3 license applies to all parts of the repository that are not externally maintained libraries. This repository uses the externally maintained library "chemical_vae" and licensed under an Apache-2.0 License.
 # History 
-- State the date when the model was downloaded and incorporated into Ersilia.
-- List any essential steps/modifications to the original code
+- This model was downloaded in 8/30/2022.
+- Modifications to the (chemvae)[model/framework/code/chemvae] folder from the original repository were made on 8/31/2022.
+- The model was fully incorporated on 9/1/2022.
 
 # About us
 The [Ersilia Open Source Initiative](https://ersilia.io) is a Non Profit Organization ([1192266](https://register-of-charities.charitycommission.gov.uk/charity-search/-/charity-details/5170657/full-print)) with the mission is to equip labs, universities and clinics in LMIC with AI/ML tools for infectious disease research.
