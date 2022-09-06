@@ -25,7 +25,7 @@ Gómez-Bombarelli, R. et al. Automatic Chemical Design Using a Data-Driven Conti
 The GPL-v3 license applies to all parts of the repository that are not externally maintained libraries. This repository uses the externally maintained library "chemical_vae" and licensed under an Apache-2.0 License.
 # History 
 - This model was downloaded in 8/30/2022.
-- Modifications to the [chemvae](model/framework/code/chemvae) folder from the original repository were made on 8/31/2022.
+- Modifications to the [chemvae](model/framework/code/chemvae) folder from the original repository were made to map checkpoint locations to Ersilia's [checkpoints](model/checkpoints) on 8/31/2022.
 - The model was fully incorporated on 9/1/2022.
 
 # About us
