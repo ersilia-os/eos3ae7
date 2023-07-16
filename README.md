@@ -23,6 +23,9 @@ This variational autoencoder (VAE) for chemistry uses an encoder-decoder-predict
 * [Source Code](https://github.com/aspuru-guzik-group/chemical_vae)
 * Ersilia contributor: [brosular](https://github.com/brosular)
 
+## Ersilia model URLs
+* [GitHub](https://github.com/ersilia-os/eos3ae7)
+
 ## Citation
 
 If you use this model, please cite the [original authors](https://pubs.acs.org/doi/10.1021/acscentsci.7b00572) of the model and the [Ersilia Model Hub](https://github.com/ersilia-os/ersilia/blob/master/CITATION.cff).
