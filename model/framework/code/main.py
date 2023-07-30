@@ -10,7 +10,6 @@ from rdkit import RDLogger
 from chemvae.vae_utils import VAEUtils
 from chemvae import mol_utils as mu
 import time
-import matplotlib.pyplot as plt
 
 #Load model
 vae = VAEUtils()
@@ -35,8 +34,7 @@ num_molecules_gen = 20
 MAX_ITER = 5 #To avoid infinite loop
 
 for smi in smiles_list:
-    num_noise_dict[smi] = []
-    num_molecules_dict[smi] = []
+    iteration = 0
     while(len(smi_gen_dict[smi][0]) < num_molecules_gen) and (iteration < MAX_ITER):
         for i in range(len(noise_list)):
             smi_canon = mu.canon_smiles(smi)
@@ -45,7 +43,8 @@ for smi in smiles_list:
             df = vae.z_to_smiles(smi_z, decode_attempts=250, noise_norm=noise_list[i])
             smi_gen_dict[smi][0] += df.smiles.values.tolist()
             smi_gen_dict[smi][0] = list(set(smi_gen_dict[smi][0])) #Avoid repeat molecules
-
+        iteration += 1
+        
 #Write output in a .csv file
 output_df = pd.DataFrame.from_dict(smi_gen_dict, orient='index', columns=["generated_molecules"])
 output_df = output_df.reset_index().rename(columns={"index":"smiles"})

@@ -1,8 +1,12 @@
 FROM bentoml/model-server:0.11.0-py37
 MAINTAINER ersilia
 
-RUN conda install -c conda-forge rdkit=2021.03.4
-RUN pip install tensorflow<2
+RUN pip install rdkit==2023.3.1
+RUN pip install tensorflow==1.13.1
+RUN pip install pandas==1.3.5
+RUN pip install PyYAML==6.0.1
+RUN pip install Keras==2.0.6
+RUN pip install h5py==2.10.0
 
 WORKDIR /repo
 COPY . /repo
