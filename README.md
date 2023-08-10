@@ -14,7 +14,7 @@ This variational autoencoder (VAE) for chemistry uses an encoder-decoder-predict
 * Task: `Generative`
 * Output: `Compound`
 * Output Type: `String`
-* Output Shape: `Flexible List`
+* Output Shape: `List`
 * Interpretation: Compounds generated based on the input molecule
 
 ## References
@@ -25,6 +25,8 @@ This variational autoencoder (VAE) for chemistry uses an encoder-decoder-predict
 
 ## Ersilia model URLs
 * [GitHub](https://github.com/ersilia-os/eos3ae7)
+* [AWS S3](https://ersilia-models-zipped.s3.eu-central-1.amazonaws.com/eos3ae7.zip)
+* [DockerHub](https://hub.docker.com/r/ersiliaos/eos3ae7) (AMD64)
 
 ## Citation
 

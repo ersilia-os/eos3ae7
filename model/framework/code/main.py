@@ -10,7 +10,6 @@ from rdkit import RDLogger
 from chemvae.vae_utils import VAEUtils
 from chemvae import mol_utils as mu
 import time
-import matplotlib.pyplot as plt
 
 #Load model
 vae = VAEUtils()
@@ -35,8 +34,7 @@ num_molecules_gen = 20
 MAX_ITER = 5 #To avoid infinite loop
 
 for smi in smiles_list:
-    num_noise_dict[smi] = []
-    num_molecules_dict[smi] = []
+    iteration = 0
     while(len(smi_gen_dict[smi][0]) < num_molecules_gen) and (iteration < MAX_ITER):
         for i in range(len(noise_list)):
             smi_canon = mu.canon_smiles(smi)
@@ -46,7 +44,25 @@ for smi in smiles_list:
             smi_gen_dict[smi][0] += df.smiles.values.tolist()
             smi_gen_dict[smi][0] = list(set(smi_gen_dict[smi][0])) #Avoid repeat molecules
 
+            # Select the first 20 molecules
+            smi_gen_dict[smi][0] = smi_gen_dict[smi][0][:20]
+        iteration += 1
+        
 #Write output in a .csv file
 output_df = pd.DataFrame.from_dict(smi_gen_dict, orient='index', columns=["generated_molecules"])
 output_df = output_df.reset_index().rename(columns={"index":"smiles"})
-output_df.to_csv(output_file)
+
+# Extract generated molecules and store them in a list
+generated_molecules = output_df["generated_molecules"].tolist()
+
+# Create a new DataFrame with the molecules as columns
+mol_columns = [f"gen_mol_{i}" for i in range(20)]
+generated_df = pd.DataFrame(generated_molecules, columns=mol_columns)
+
+
+# Write to CSV using a for loop and CSV writer
+with open(output_file, "w", newline='') as f:
+    writer = csv.writer(f)
+    writer.writerow(mol_columns)  # header
+    for row in generated_df.itertuples(index=False):
+        writer.writerow(row)

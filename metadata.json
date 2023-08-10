@@ -18,7 +18,7 @@
     "Output Type": [
         "String"
     ],
-    "Output Shape": "Flexible List",
+    "Output Shape": "List",
     "Interpretation": "Compounds generated based on the input molecule",
     "Tag": [
         "Compound generation"
@@ -26,5 +26,10 @@
     "Publication": "https://pubs.acs.org/doi/10.1021/acscentsci.7b00572",
     "Source Code": "https://github.com/aspuru-guzik-group/chemical_vae",
     "License": "Apache-2.0",
-    "Contributor": "brosular"
+    "Contributor": "brosular",
+    "S3": "https://ersilia-models-zipped.s3.eu-central-1.amazonaws.com/eos3ae7.zip",
+    "DockerHub": "https://hub.docker.com/r/ersiliaos/eos3ae7",
+    "Docker Architecture": [
+        "AMD64"
+    ]
 }
