@@ -18,7 +18,7 @@
     "Output Type": [
         "String"
     ],
-    "Output Shape": "Flexible List",
+    "Output Shape": "List",
     "Interpretation": "Compounds generated based on the input molecule",
     "Tag": [
         "Compound generation"
