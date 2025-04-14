@@ -56,7 +56,7 @@ output_df = output_df.reset_index().rename(columns={"index":"smiles"})
 generated_molecules = output_df["generated_molecules"].tolist()
 
 # Create a new DataFrame with the molecules as columns
-mol_columns = [f"gen_mol_{i}" for i in range(20)]
+mol_columns = [f"mol_{i:02}" for i in range(20)]
 generated_df = pd.DataFrame(generated_molecules, columns=mol_columns)
 
 
